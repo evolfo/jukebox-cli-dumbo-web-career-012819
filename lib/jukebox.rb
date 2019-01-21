@@ -28,13 +28,13 @@ end
 
 def play(songs)
 	puts "Please enter a song name or number:"
-	gets.chomp
-	songs.each_with_index do |song, index|
-		if gets.chomp == song || gets.chomp == (index + 1).to_s
-			puts "Playing #{song}"
-		else
-			puts "Invalid input, please try again"
-		end
+	input = gets.chomp
+	if (1..9).to_a.include?(input.to_i)
+		puts "Playing #{songs[input.to_i - 1]}"
+	elsif songs.include?(input)
+		puts "Playing #{input}"
+	else
+		puts "Invalid input, please try again"
 	end
 end
 
@@ -44,16 +44,20 @@ end
 
 def run(songs)
 	help
-	puts "Please enter a command:"
-	gets.chomp
-	until gets.chomp == "exit"
-		if gets.chomp == "list"
-			list
-		elsif gets.chomp == "play"
+	input = ""
+	until input == "exit"
+		puts "Please enter a command:"
+		input = gets.chomp
+		if input == "list"
+			list(songs)
+		elsif input == "play"
 			play(songs)
-		elsif gets.chomp == "help"
+		elsif input == "help"
+			help
+		elsif input == "exit"
+			exit_jukebox
+		else 
 			help
 		end
 	end
-	exit_jukebox
 end
